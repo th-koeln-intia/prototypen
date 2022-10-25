@@ -1,0 +1,135 @@
+[
+    {
+        "id": "433be39e9a01f198",
+        "type": "schedex",
+        "z": "d1a8fa38065c2484",
+        "name": "Arbeitszeit",
+        "passthroughunhandled": false,
+        "suspended": false,
+        "lat": "",
+        "lon": "",
+        "ontime": "9:00",
+        "ontopic": "",
+        "onpayload": "true",
+        "onoffset": 0,
+        "onrandomoffset": 0,
+        "offtime": "17:00",
+        "offtopic": "",
+        "offpayload": "false",
+        "offoffset": 0,
+        "offrandomoffset": 0,
+        "mon": true,
+        "tue": true,
+        "wed": true,
+        "thu": true,
+        "fri": true,
+        "sat": false,
+        "sun": false,
+        "x": 130,
+        "y": 3920,
+        "wires": [
+            [
+                "0bc41c7488e6b2c1"
+            ]
+        ]
+    },
+    {
+        "id": "0bc41c7488e6b2c1",
+        "type": "switch",
+        "z": "d1a8fa38065c2484",
+        "name": "an oder aus?",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "true"
+            },
+            {
+                "t": "false"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 310,
+        "y": 3920,
+        "wires": [
+            [
+                "c4d1e4086cdf0466",
+                "a9acfc5a7a98c393"
+            ],
+            [
+                "a899a3589138427b",
+                "08c9e614f003fedb"
+            ]
+        ]
+    },
+    {
+        "id": "c4d1e4086cdf0466",
+        "type": "zigbee2mqtt-out",
+        "z": "d1a8fa38065c2484",
+        "name": "Lichttemperatur Kalt",
+        "server": "",
+        "friendly_name": "sophia_decke",
+        "device_id": "0x0017880104d297ca",
+        "command": "color_temp",
+        "commandType": "z2m_cmd",
+        "payload": "50",
+        "payloadType": "z2m_payload",
+        "transition": 0,
+        "x": 560,
+        "y": 3900,
+        "wires": []
+    },
+    {
+        "id": "a899a3589138427b",
+        "type": "zigbee2mqtt-out",
+        "z": "d1a8fa38065c2484",
+        "name": "Lichttemperatur Warm",
+        "server": "",
+        "friendly_name": "sophia_decke",
+        "device_id": "0x0017880104d297ca",
+        "command": "color_temp",
+        "commandType": "z2m_cmd",
+        "payload": "400",
+        "payloadType": "z2m_payload",
+        "transition": 0,
+        "x": 560,
+        "y": 3940,
+        "wires": []
+    },
+    {
+        "id": "a9acfc5a7a98c393",
+        "type": "zigbee2mqtt-out",
+        "z": "d1a8fa38065c2484",
+        "name": "Lampe Hell",
+        "server": "",
+        "friendly_name": "sophia_decke",
+        "device_id": "0x0017880104d297ca",
+        "command": "brightness",
+        "commandType": "z2m_cmd",
+        "payload": "255",
+        "payloadType": "str",
+        "transition": 0,
+        "x": 530,
+        "y": 3860,
+        "wires": []
+    },
+    {
+        "id": "08c9e614f003fedb",
+        "type": "zigbee2mqtt-out",
+        "z": "d1a8fa38065c2484",
+        "name": "Lampe Gedimmt",
+        "server": "",
+        "friendly_name": "sophia_decke",
+        "device_id": "0x0017880104d297ca",
+        "command": "brightness_move",
+        "commandType": "z2m_cmd",
+        "payload": "-1",
+        "payloadType": "str",
+        "transition": 0,
+        "x": 540,
+        "y": 3980,
+        "wires": []
+    }
+]

@@ -1,0 +1,118 @@
+[
+    {
+        "id": "8d07fa2eee02e2d0",
+        "type": "subflow",
+        "name": "Benachrichtigung",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 50,
+                "y": 30,
+                "wires": [
+                    {
+                        "id": "f0fda298085bfafe"
+                    }
+                ]
+            }
+        ],
+        "out": [],
+        "env": [],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
+        "id": "f0fda298085bfafe",
+        "type": "debug",
+        "z": "8d07fa2eee02e2d0",
+        "name": "Benachrichtigung",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 230,
+        "y": 20,
+        "wires": []
+    },
+    {
+        "id": "b7b152677a667076",
+        "type": "zigbee2mqtt-in",
+        "z": "d1a8fa38065c2484",
+        "name": "Briefkasten",
+        "server": "",
+        "friendly_name": "kuehlschrank_tuer",
+        "device_id": "0x00158d0004096907",
+        "state": "0",
+        "outputAtStartup": true,
+        "x": 120,
+        "y": 3460,
+        "wires": [
+            [
+                "66d5b2c058aa87bd"
+            ]
+        ]
+    },
+    {
+        "id": "66d5b2c058aa87bd",
+        "type": "switch",
+        "z": "d1a8fa38065c2484",
+        "name": "geöffnet?",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "false"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 300,
+        "y": 3460,
+        "wires": [
+            [
+                "f09f41557ddaf55c"
+            ]
+        ]
+    },
+    {
+        "id": "f676f1d736693cc8",
+        "type": "subflow:8d07fa2eee02e2d0",
+        "z": "d1a8fa38065c2484",
+        "name": "",
+        "x": 790,
+        "y": 3460,
+        "wires": []
+    },
+    {
+        "id": "f09f41557ddaf55c",
+        "type": "change",
+        "z": "d1a8fa38065c2484",
+        "name": "Nachricht schreiben",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Der Briefkasten wurde geöffnet",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 540,
+        "y": 3460,
+        "wires": [
+            [
+                "f676f1d736693cc8"
+            ]
+        ]
+    }
+]
