@@ -1,0 +1,221 @@
+[
+    {
+        "id": "384748444e4699c9",
+        "type": "zigbee2mqtt-in",
+        "z": "d1a8fa38065c2484",
+        "name": "Schublade",
+        "server": "",
+        "friendly_name": "kueche_fenster",
+        "device_id": "0x00158d0004280b37",
+        "state": "0",
+        "outputAtStartup": true,
+        "x": 90,
+        "y": 4520,
+        "wires": [
+            [
+                "9de0f7d487196b15"
+            ]
+        ]
+    },
+    {
+        "id": "9de0f7d487196b15",
+        "type": "switch",
+        "z": "d1a8fa38065c2484",
+        "name": "geöffnet?",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "true"
+            },
+            {
+                "t": "false"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 310,
+        "y": 4520,
+        "wires": [
+            [],
+            [
+                "c48c8f95e01aeb75"
+            ]
+        ]
+    },
+    {
+        "id": "c48c8f95e01aeb75",
+        "type": "function",
+        "z": "d1a8fa38065c2484",
+        "name": "schubladen_counter +1",
+        "func": "const tmp=flow.get('schubladen_counter')\nflow.set('schubladen_counter',tmp+1)\nmsg.payload=tmp+1\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 540,
+        "y": 4520,
+        "wires": [
+            [
+                "56e259ef2e4ab925",
+                "bfc7c1d7c622d7b4"
+            ]
+        ]
+    },
+    {
+        "id": "56e259ef2e4ab925",
+        "type": "ui_chart",
+        "z": "d1a8fa38065c2484",
+        "name": "Graph",
+        "group": "6071c9e359b76828",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "label": "chart",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "86400",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 840,
+        "y": 4480,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "bfc7c1d7c622d7b4",
+        "type": "function",
+        "z": "d1a8fa38065c2484",
+        "name": "übergang grün zu rot",
+        "func": "var counter= flow.get(\"schubladen_counter\")\nif(counter<10){\nmsg.payload={\n    \"r\": (0+(25*counter)),\n    \"g\": (250-(25*counter)),\n    \"b\": 0\n}\n}else{\nmsg.payload={\n    \"r\": 255,\n    \"g\": 0,\n    \"b\": 0\n}\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1050,
+        "y": 4520,
+        "wires": [
+            [
+                "365cda65bbd2af54"
+            ]
+        ]
+    },
+    {
+        "id": "365cda65bbd2af54",
+        "type": "zigbee2mqtt-out",
+        "z": "d1a8fa38065c2484",
+        "name": "Lampe",
+        "server": "",
+        "friendly_name": "tint_gu10",
+        "device_id": "0xccccccfffeec4d24",
+        "command": "color",
+        "commandType": "z2m_cmd",
+        "payload": "payload",
+        "payloadType": "msg",
+        "transition": 0,
+        "x": 1240,
+        "y": 4520,
+        "wires": []
+    },
+    {
+        "id": "632227c3c685d289",
+        "type": "inject",
+        "z": "d1a8fa38065c2484",
+        "name": "Reset counter",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "10 00 * * *",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 130,
+        "y": 4600,
+        "wires": [
+            [
+                "90718adc3248c7ef"
+            ]
+        ]
+    },
+    {
+        "id": "90718adc3248c7ef",
+        "type": "change",
+        "z": "d1a8fa38065c2484",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "schubladen_counter",
+                "pt": "flow",
+                "to": "0",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 390,
+        "y": 4600,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6071c9e359b76828",
+        "type": "ui_group",
+        "name": "Default",
+        "tab": "005791a2742a4990",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "005791a2742a4990",
+        "type": "ui_tab",
+        "name": "INTIA",
+        "icon": "dashboard",
+        "order": 9,
+        "disabled": false,
+        "hidden": false
+    }
+]

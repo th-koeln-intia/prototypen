@@ -1,0 +1,226 @@
+[
+    {
+        "id": "8d07fa2eee02e2d0",
+        "type": "subflow",
+        "name": "Benachrichtigung",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 50,
+                "y": 30,
+                "wires": [
+                    {
+                        "id": "f0fda298085bfafe"
+                    }
+                ]
+            }
+        ],
+        "out": [],
+        "env": [],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
+        "id": "f0fda298085bfafe",
+        "type": "debug",
+        "z": "8d07fa2eee02e2d0",
+        "name": "Benachrichtigung",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 230,
+        "y": 20,
+        "wires": []
+    },
+    {
+        "id": "2042ef7abeb6bb56",
+        "type": "zigbee2mqtt-in",
+        "z": "d1a8fa38065c2484",
+        "name": "Kuehlschrank_tuer",
+        "server": "",
+        "friendly_name": "kuehlschrank_tuer",
+        "device_id": "0x00158d0004096907",
+        "state": "0",
+        "outputAtStartup": true,
+        "x": 110,
+        "y": 3560,
+        "wires": [
+            [
+                "e68372990e5361dd"
+            ]
+        ]
+    },
+    {
+        "id": "e68372990e5361dd",
+        "type": "switch",
+        "z": "d1a8fa38065c2484",
+        "name": "auf oder zu?",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "true"
+            },
+            {
+                "t": "false"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 310,
+        "y": 3560,
+        "wires": [
+            [
+                "a5b5c0ad59f930cc"
+            ],
+            [
+                "a5392b332e4164ea"
+            ]
+        ]
+    },
+    {
+        "id": "a5b5c0ad59f930cc",
+        "type": "change",
+        "z": "d1a8fa38065c2484",
+        "name": "set flow.lastClosed ",
+        "rules": [
+            {
+                "t": "set",
+                "p": "lastClosed",
+                "pt": "flow",
+                "to": "",
+                "tot": "date"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 530,
+        "y": 3520,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a5392b332e4164ea",
+        "type": "change",
+        "z": "d1a8fa38065c2484",
+        "name": "Zeitpunkt speichern",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "",
+                "tot": "date"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 530,
+        "y": 3580,
+        "wires": [
+            [
+                "6b01155feb35de82"
+            ]
+        ]
+    },
+    {
+        "id": "6b01155feb35de82",
+        "type": "delay",
+        "z": "d1a8fa38065c2484",
+        "name": "60s warten",
+        "pauseType": "delay",
+        "timeout": "60",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 730,
+        "y": 3580,
+        "wires": [
+            [
+                "aafb5f2beb0ebfe1"
+            ]
+        ]
+    },
+    {
+        "id": "aafb5f2beb0ebfe1",
+        "type": "switch",
+        "z": "d1a8fa38065c2484",
+        "name": "Zwischendurch geschlossen?",
+        "property": "lastClosed",
+        "propertyType": "flow",
+        "rules": [
+            {
+                "t": "lt",
+                "v": "payload",
+                "vt": "msg"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 970,
+        "y": 3580,
+        "wires": [
+            [
+                "93bb415a21b34d1b"
+            ]
+        ]
+    },
+    {
+        "id": "93bb415a21b34d1b",
+        "type": "change",
+        "z": "d1a8fa38065c2484",
+        "name": "Nachricht schreiben",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Der Gefrierschrank steht offen",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1240,
+        "y": 3580,
+        "wires": [
+            [
+                "7d1656fc67cde9d4"
+            ]
+        ]
+    },
+    {
+        "id": "7d1656fc67cde9d4",
+        "type": "subflow:8d07fa2eee02e2d0",
+        "z": "d1a8fa38065c2484",
+        "name": "",
+        "x": 1460,
+        "y": 3580,
+        "wires": []
+    }
+]

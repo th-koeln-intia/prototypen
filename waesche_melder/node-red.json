@@ -1,0 +1,178 @@
+[
+    {
+        "id": "6bfe1c7b1b7e904f",
+        "type": "subflow",
+        "name": "Andere Benachrichtigung",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 50,
+                "y": 30,
+                "wires": [
+                    {
+                        "id": "3ceb1527e59f6fd3"
+                    }
+                ]
+            }
+        ],
+        "out": [],
+        "env": [],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
+        "id": "3ceb1527e59f6fd3",
+        "type": "debug",
+        "z": "6bfe1c7b1b7e904f",
+        "name": "Benachrichtigung",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 210,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "8d07fa2eee02e2d0",
+        "type": "subflow",
+        "name": "Benachrichtigung",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 50,
+                "y": 30,
+                "wires": [
+                    {
+                        "id": "f0fda298085bfafe"
+                    }
+                ]
+            }
+        ],
+        "out": [],
+        "env": [],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
+        "id": "f0fda298085bfafe",
+        "type": "debug",
+        "z": "8d07fa2eee02e2d0",
+        "name": "Benachrichtigung",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 230,
+        "y": 20,
+        "wires": []
+    },
+    {
+        "id": "70072feac3756633",
+        "type": "zigbee2mqtt-in",
+        "z": "d1a8fa38065c2484",
+        "name": "waschmaschine_steckdose",
+        "server": "",
+        "friendly_name": "bad_steckdose",
+        "device_id": "0x04cd15fffe068308",
+        "state": "0",
+        "outputAtStartup": true,
+        "x": 130,
+        "y": 2160,
+        "wires": [
+            [
+                "e522ba14e77c36e8"
+            ]
+        ]
+    },
+    {
+        "id": "e522ba14e77c36e8",
+        "type": "hysteresis",
+        "z": "d1a8fa38065c2484",
+        "name": "Spannungsänderung",
+        "ThresholdType": "fixed",
+        "ThresholdRising": "7",
+        "ThresholdFalling": "0.03",
+        "TopicThreshold": "",
+        "TopicCurrent": "",
+        "ThresholdDeltaRising": "",
+        "ThresholdDeltaFalling": "",
+        "InitialMessage": false,
+        "OutRisingType": "str",
+        "OutRisingValue": "Waschmaschine ist gestartet",
+        "OutFallingType": "str",
+        "OutFallingValue": "Waschmaschine ist fertig",
+        "OutTopicType": "str",
+        "OutTopicValue": "Waschmaschine",
+        "DynRaiseError": false,
+        "x": 380,
+        "y": 2160,
+        "wires": [
+            [
+                "57869c6fa195b99d"
+            ]
+        ]
+    },
+    {
+        "id": "57869c6fa195b99d",
+        "type": "switch",
+        "z": "d1a8fa38065c2484",
+        "name": "start 1 ende 2",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "Waschmaschine ist gestartet",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "Waschmaschine ist fertig",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 600,
+        "y": 2160,
+        "wires": [
+            [
+                "3a8d56c49b1a650b"
+            ],
+            [
+                "d669cf6003b51c84",
+                "3a8d56c49b1a650b"
+            ]
+        ]
+    },
+    {
+        "id": "3a8d56c49b1a650b",
+        "type": "subflow:8d07fa2eee02e2d0",
+        "z": "d1a8fa38065c2484",
+        "name": "",
+        "x": 1110,
+        "y": 2120,
+        "wires": []
+    },
+    {
+        "id": "d669cf6003b51c84",
+        "type": "subflow:6bfe1c7b1b7e904f",
+        "z": "d1a8fa38065c2484",
+        "name": "",
+        "x": 1130,
+        "y": 2160,
+        "wires": []
+    }
+]

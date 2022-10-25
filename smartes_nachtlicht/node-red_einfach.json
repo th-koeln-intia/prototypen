@@ -1,0 +1,269 @@
+[
+    {
+        "id": "7ced7816bcb5acae",
+        "type": "zigbee2mqtt-in",
+        "z": "d1a8fa38065c2484",
+        "name": "bewegungsmelder",
+        "server": "",
+        "friendly_name": "sonoff_motion",
+        "device_id": "0x00124b0023424ad9",
+        "state": "0",
+        "outputAtStartup": true,
+        "x": 1210,
+        "y": 1160,
+        "wires": [
+            [
+                "0c540de52d9bf683"
+            ]
+        ]
+    },
+    {
+        "id": "0c540de52d9bf683",
+        "type": "switch",
+        "z": "d1a8fa38065c2484",
+        "name": "Bewegung?",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "true"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 1410,
+        "y": 1160,
+        "wires": [
+            [
+                "ea8b1f322148e3f7"
+            ]
+        ]
+    },
+    {
+        "id": "ea8b1f322148e3f7",
+        "type": "change",
+        "z": "d1a8fa38065c2484",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "value1",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1580,
+        "y": 1160,
+        "wires": [
+            [
+                "c3e83f259a86c653"
+            ]
+        ]
+    },
+    {
+        "id": "c3e83f259a86c653",
+        "type": "BooleanLogic",
+        "z": "d1a8fa38065c2484",
+        "name": "",
+        "operation": "AND",
+        "inputCount": 2,
+        "topic": "result",
+        "x": 1780,
+        "y": 1160,
+        "wires": [
+            [
+                "9e397f9a230f4dc2"
+            ]
+        ]
+    },
+    {
+        "id": "223474337e63d786",
+        "type": "change",
+        "z": "d1a8fa38065c2484",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "value2",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1580,
+        "y": 1220,
+        "wires": [
+            [
+                "c3e83f259a86c653"
+            ]
+        ]
+    },
+    {
+        "id": "9e397f9a230f4dc2",
+        "type": "switch",
+        "z": "d1a8fa38065c2484",
+        "name": "true?",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "true"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 1930,
+        "y": 1160,
+        "wires": [
+            [
+                "b0b3f6da5133d715"
+            ]
+        ]
+    },
+    {
+        "id": "32f35b31faab87a8",
+        "type": "schedex",
+        "z": "d1a8fa38065c2484",
+        "name": "",
+        "passthroughunhandled": false,
+        "suspended": false,
+        "lat": "",
+        "lon": "",
+        "ontime": "sunsetStart",
+        "ontopic": "",
+        "onpayload": "true",
+        "onoffset": 0,
+        "onrandomoffset": 0,
+        "offtime": "sunriseEnd",
+        "offtopic": "",
+        "offpayload": "false",
+        "offoffset": 0,
+        "offrandomoffset": 0,
+        "mon": true,
+        "tue": true,
+        "wed": true,
+        "thu": true,
+        "fri": true,
+        "sat": true,
+        "sun": true,
+        "x": 1230,
+        "y": 1220,
+        "wires": [
+            [
+                "223474337e63d786"
+            ]
+        ]
+    },
+    {
+        "id": "b0b3f6da5133d715",
+        "type": "zigbee2mqtt-out",
+        "z": "d1a8fa38065c2484",
+        "name": "Nachtlicht an",
+        "server": "",
+        "friendly_name": "nachtlicht",
+        "device_id": "0x90fd9ffffef291c7",
+        "command": "state",
+        "commandType": "z2m_cmd",
+        "payload": "on",
+        "payloadType": "z2m_payload",
+        "transition": 0,
+        "x": 2090,
+        "y": 1160,
+        "wires": []
+    },
+    {
+        "id": "80b8a5084bdf8df9",
+        "type": "zigbee2mqtt-in",
+        "z": "d1a8fa38065c2484",
+        "name": "bewegungsmelder",
+        "server": "",
+        "friendly_name": "sonoff_motion",
+        "device_id": "0x00124b0023424ad9",
+        "state": "0",
+        "outputAtStartup": true,
+        "x": 1210,
+        "y": 1400,
+        "wires": [
+            [
+                "fc3e3b1c232c0540"
+            ]
+        ]
+    },
+    {
+        "id": "fc3e3b1c232c0540",
+        "type": "switch",
+        "z": "d1a8fa38065c2484",
+        "name": "keine Bewegung?",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "false"
+            },
+            {
+                "t": "true"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 1410,
+        "y": 1400,
+        "wires": [
+            [
+                "fdf11d86f985b07b"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "fdf11d86f985b07b",
+        "type": "zigbee2mqtt-out",
+        "z": "d1a8fa38065c2484",
+        "name": "Nachtlicht aus",
+        "server": "",
+        "friendly_name": "nachtlicht",
+        "device_id": "0x90fd9ffffef291c7",
+        "command": "state",
+        "commandType": "z2m_cmd",
+        "payload": "off",
+        "payloadType": "z2m_payload",
+        "transition": 0,
+        "x": 1620,
+        "y": 1400,
+        "wires": []
+    },
+    {
+        "id": "58d285c11ed304c8",
+        "type": "comment",
+        "z": "d1a8fa38065c2484",
+        "name": "Licht aus",
+        "info": "",
+        "x": 1180,
+        "y": 1340,
+        "wires": []
+    },
+    {
+        "id": "94c739cee3fc2a5e",
+        "type": "comment",
+        "z": "d1a8fa38065c2484",
+        "name": "Licht an",
+        "info": "",
+        "x": 1170,
+        "y": 1100,
+        "wires": []
+    }
+]

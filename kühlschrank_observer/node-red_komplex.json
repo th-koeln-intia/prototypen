@@ -1,0 +1,360 @@
+[
+    {
+        "id": "8d07fa2eee02e2d0",
+        "type": "subflow",
+        "name": "Benachrichtigung",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 50,
+                "y": 30,
+                "wires": [
+                    {
+                        "id": "f0fda298085bfafe"
+                    }
+                ]
+            }
+        ],
+        "out": [],
+        "env": [],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
+        "id": "f0fda298085bfafe",
+        "type": "debug",
+        "z": "8d07fa2eee02e2d0",
+        "name": "Benachrichtigung",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 230,
+        "y": 20,
+        "wires": []
+    },
+    {
+        "id": "6bfe1c7b1b7e904f",
+        "type": "subflow",
+        "name": "Andere Benachrichtigung",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 50,
+                "y": 30,
+                "wires": [
+                    {
+                        "id": "3ceb1527e59f6fd3"
+                    }
+                ]
+            }
+        ],
+        "out": [],
+        "env": [],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
+        "id": "3ceb1527e59f6fd3",
+        "type": "debug",
+        "z": "6bfe1c7b1b7e904f",
+        "name": "Benachrichtigung",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 210,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "b6bde99204a54886",
+        "type": "zigbee2mqtt-in",
+        "z": "d1a8fa38065c2484",
+        "name": "Kuehlschrank_tuer",
+        "server": "",
+        "friendly_name": "kuehlschrank_tuer",
+        "device_id": "0x00158d0004096907",
+        "state": "0",
+        "outputAtStartup": true,
+        "x": 110,
+        "y": 3800,
+        "wires": [
+            [
+                "1a91f8886301a76d"
+            ]
+        ]
+    },
+    {
+        "id": "1a91f8886301a76d",
+        "type": "switch",
+        "z": "d1a8fa38065c2484",
+        "name": "auf oder zu?",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "true"
+            },
+            {
+                "t": "false"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 310,
+        "y": 3800,
+        "wires": [
+            [
+                "e0a5a123f8d843e8"
+            ],
+            [
+                "c8208718a62bda2e"
+            ]
+        ]
+    },
+    {
+        "id": "e0a5a123f8d843e8",
+        "type": "change",
+        "z": "d1a8fa38065c2484",
+        "name": "set flow.lastClosed ",
+        "rules": [
+            {
+                "t": "set",
+                "p": "lastClosed",
+                "pt": "flow",
+                "to": "",
+                "tot": "date"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 530,
+        "y": 3760,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c8208718a62bda2e",
+        "type": "change",
+        "z": "d1a8fa38065c2484",
+        "name": "Zeitpunkt speichern",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "",
+                "tot": "date"
+            },
+            {
+                "t": "set",
+                "p": "gefrier_counter",
+                "pt": "flow",
+                "to": "0",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 530,
+        "y": 3820,
+        "wires": [
+            [
+                "821309981f572971"
+            ]
+        ]
+    },
+    {
+        "id": "821309981f572971",
+        "type": "delay",
+        "z": "d1a8fa38065c2484",
+        "name": "60s warten",
+        "pauseType": "delay",
+        "timeout": "60",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 730,
+        "y": 3820,
+        "wires": [
+            [
+                "f4e275e6f64c88c3"
+            ]
+        ]
+    },
+    {
+        "id": "c141e4947629809e",
+        "type": "function",
+        "z": "d1a8fa38065c2484",
+        "name": "flow.gefrier_counter+1",
+        "func": "const tmp=flow.get('gefrier_counter')\nflow.set('gefrier_counter',tmp+1)\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 880,
+        "y": 3960,
+        "wires": [
+            [
+                "821309981f572971"
+            ]
+        ]
+    },
+    {
+        "id": "f4e275e6f64c88c3",
+        "type": "switch",
+        "z": "d1a8fa38065c2484",
+        "name": "Zwischendurch geschlossen?",
+        "property": "lastClosed",
+        "propertyType": "flow",
+        "rules": [
+            {
+                "t": "lt",
+                "v": "payload",
+                "vt": "msg"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 970,
+        "y": 3820,
+        "wires": [
+            [
+                "761b16e6ebab97d6",
+                "c141e4947629809e"
+            ]
+        ]
+    },
+    {
+        "id": "761b16e6ebab97d6",
+        "type": "switch",
+        "z": "d1a8fa38065c2484",
+        "name": ">5min offen?",
+        "property": "gefrier_counter",
+        "propertyType": "flow",
+        "rules": [
+            {
+                "t": "gt",
+                "v": "2",
+                "vt": "num"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 1250,
+        "y": 3820,
+        "wires": [
+            [
+                "9a6fcfcafcb53834"
+            ],
+            [
+                "8bcb5bd99c718ade"
+            ]
+        ]
+    },
+    {
+        "id": "9a6fcfcafcb53834",
+        "type": "change",
+        "z": "d1a8fa38065c2484",
+        "name": "Nachricht schreiben",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Der Gefrierschrank steht immernoch offen",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1500,
+        "y": 3760,
+        "wires": [
+            [
+                "05c845ee54badd57",
+                "54f25db66c5ca017"
+            ]
+        ]
+    },
+    {
+        "id": "8bcb5bd99c718ade",
+        "type": "change",
+        "z": "d1a8fa38065c2484",
+        "name": "Nachricht schreiben",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Der Gefrierschrank steht offen",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1500,
+        "y": 3820,
+        "wires": [
+            [
+                "54f25db66c5ca017"
+            ]
+        ]
+    },
+    {
+        "id": "05c845ee54badd57",
+        "type": "subflow:6bfe1c7b1b7e904f",
+        "z": "d1a8fa38065c2484",
+        "name": "",
+        "x": 1770,
+        "y": 3760,
+        "wires": []
+    },
+    {
+        "id": "54f25db66c5ca017",
+        "type": "subflow:8d07fa2eee02e2d0",
+        "z": "d1a8fa38065c2484",
+        "name": "",
+        "x": 1740,
+        "y": 3820,
+        "wires": []
+    }
+]
